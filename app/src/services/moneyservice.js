@@ -1,5 +1,5 @@
 var MoneyService = {
-		currentTransaction: {total:0},
+		currentTransaction: {total:0, coins:[]},
 		deposited: 0,
 		status: m.prop("INSERT COIN"),
 		updateStatus: function(message){
@@ -20,19 +20,24 @@ var MoneyService = {
 			}else if(coin.weight() >= 50 && coin.weight() < 100){
 				updateAmount = 0.05;
 			}
+			MoneyService.currentTransaction.coins.push(updateAmount);
 			MoneyService.currentTransaction.total += updateAmount;
 			MoneyService.updateStatus();
 		},
 		dispense: function(item) {
 			var currentTotal = MoneyService.currentTransaction.total; 
-
 			if(currentTotal - item.cost < 0) {
-				MoneyService.updateStatus("MORE MONEY!");
+				MoneyService.updateStatus("PRICE: " + item.cost.toFixed(2));
+				return false;
 			}else {
 				MoneyService.currentTransaction.total -= item.cost;
-				MoneyService.updateStatus();				
+				MoneyService.updateStatus("THANK YOU");
+				console.log(MoneyService.currentTransaction.coins);	
+				return true;			
 			}
-		}
+		},
+		makeChange: function() {
+		},
 };
 
 module.exports = MoneyService;

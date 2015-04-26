@@ -5,31 +5,55 @@ ItemDispenser.controller = function() {
 	var items = [
 		{
 			name: 'candy',
-			cost: 0.65
+			cost: 0.65,
+			stock: 10
 		},
 		{
 			name: 'cola',
-			cost: 1.0
+			cost: 1.0,
+			stock: 10
 		},
 		{
 			name: 'chips',
-			cost: .5
+			cost: .5,
+			stock: 10
 		}
 	];
 
+	var _this = this;
+
+	this.inStock = function (item) {
+		return item.stock > 0;
+	}
+	this.destock = function (item) {
+		var selectedItem = _.find(items, {name: item.name});
+		selectedItem.stock -= 1;
+		console.log(item.name, ": ", selectedItem.stock);
+	};
+
+	this.handleItem = function(item) {
+		if(_this.inStock(item)) {
+			if(MoneyService.dispense(item)) {
+				_this.destock(item);
+			}
+		}else {
+			console.log("OUT OF STOCK");
+		}
+	};
+
 	this.onCandy = function () {
 		var candy = items[0];
-		MoneyService.dispense(candy);
+		_this.handleItem(candy);
 	};
 
 	this.onCola = function () {
 		var cola = items[1];
-		MoneyService.dispense(cola);
+		_this.handleItem(cola);
 	};
 
 	this.onChips = function () {
 		var chips = items[2];
-		MoneyService.dispense(chips);
+		_this.handleItem(chips);
 	};
 };
 

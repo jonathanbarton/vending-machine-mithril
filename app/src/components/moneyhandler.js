@@ -17,7 +17,6 @@ MoneyHandler.controller = function() {
 		var nickel = new Coin(5);
 		MoneyService.insert(nickel);
 	};
-
 };
 
 MoneyHandler.view = function(controller){
