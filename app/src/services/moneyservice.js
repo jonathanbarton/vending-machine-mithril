@@ -37,7 +37,7 @@ var MoneyService = {
 			}
 		},
 		makeChange: function() {
-		},
+		}
 };
 
 module.exports = MoneyService;
